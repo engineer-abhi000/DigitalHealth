@@ -32,11 +32,13 @@ function Login() {
 
       if (data.success) {
         localStorage.setItem("token", data.token);
-        setEmail("");
-        setPassword("");
-        navigate("/patient"); // go to dashboard
+        if (data.user.role === "doctor") {
+          navigate("/doctor");
+        } else {
+          navigate("/patient");
+        }       // go to dashboard
       } else {
-        alert("Invalid Email or Password");
+        alert(data.message || "Invalid Email or Password");
       }
     } catch (error) {
       console.log("ERROR 👉", error); 
@@ -77,7 +79,7 @@ function Login() {
         Login
       </button>
       <div className="auth-links">
-        If you'r new user? 
+        If you're a new user? 
         <span onClick={() => navigate("/register")}>
           Register
         </span>

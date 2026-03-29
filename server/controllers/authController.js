@@ -24,7 +24,7 @@ exports.loginUser = (req, res) => {
 
     // 🔑 Generate JWT
     const token = jwt.sign(
-      { id: user.id, email: user.email },
+      { id: user.id, email: user.email, role: user.role },
       "secretkey",
       { expiresIn: "1h" }
     );
@@ -32,7 +32,10 @@ exports.loginUser = (req, res) => {
     res.json({
       success: true,
       token,
-      user,
+      user: {
+        email: user.email,
+        role: user.role,
+      },
     });
   });
 };
@@ -63,5 +66,35 @@ exports.registerUser = async (req, res) => {
 
   } catch (error) {
     res.status(500).json({ success: false });
+  }
+};
+
+exports.registerUser = async (req, res) => {
+  const { email, password, role } = req.body;
+
+  const userRole = role || "patient"; // default
+
+  try {
+    const checkSql = "SELECT * FROM users WHERE email=?";
+    db.query(checkSql, [email], async (err, result) => {
+
+      if (result.length > 0) {
+        return res.json({ success: false, message: "User exists" });
+      }
+
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      const insertSql =
+        "INSERT INTO users (email, password, role) VALUES (?, ?, ?)";
+
+      db.query(insertSql, [email, hashedPassword, userRole], (err) => {
+        if (err) return res.json({ success: false });
+
+        res.json({ success: true });
+      });
+    });
+
+  } catch {
+    res.json({ success: false });
   }
 };
