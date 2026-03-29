@@ -17,3 +17,23 @@ app.use("/api/appointments", appointmentRoutes);
 app.listen(5000, () =>
   console.log("Server running on port 5000")
 );
+
+app.post("/api/login", (req, res) => {
+  const { email, password } = req.body;
+
+  const sql = "SELECT * FROM users WHERE email = ? AND password = ?";
+
+  db.query(sql, [email, password], (err, result) => {
+    if (err) return res.json({ success: false });
+
+    if (result.length > 0) {
+      res.json({
+        success: true,
+        user: result[0],
+        token: "dummy-token",
+      });
+    } else {
+      res.json({ success: false });
+    }
+  });
+});

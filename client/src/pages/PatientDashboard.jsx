@@ -1,10 +1,24 @@
 import MainLayout from "../layouts/MainLayout";
 import HealthScore from "../components/HealthScore";
+import { useNavigate } from "react-router-dom";
 
 function PatientDashboard() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+  };
+
   return (
     <MainLayout>
-      <h1>Patient Dashboard</h1>
+      {/* 🔥 Add Logout Button */}
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <h1>Patient Dashboard</h1>
+        <button className="logout" onClick={handleLogout}>
+          Logout
+        </button>
+      </div>
 
       <div className="dashboard-grid">
         <HealthScore score={85} />
@@ -22,5 +36,6 @@ function PatientDashboard() {
     </MainLayout>
   );
 }
+
 
 export default PatientDashboard;

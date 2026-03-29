@@ -1,4 +1,11 @@
-import API from "./api";
+export const loginUser = async (email, password) => {
+  const res = await fetch("http://localhost:5000/api/auth/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email, password }),
+  });
 
-export const loginUser = (data) =>
-  API.post("/auth/login", data);
+  return res.json();
+};
