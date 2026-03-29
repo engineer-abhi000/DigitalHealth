@@ -13,7 +13,7 @@ function Sidebar() {
     <div className="sidebar">
       <div className="sidebar-title">Digital Health</div>
 
-      <NavLink to="/">
+      <NavLink to="/patient">
         <FaHome /> Dashboard
       </NavLink>
 

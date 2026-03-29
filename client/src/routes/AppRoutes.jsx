@@ -8,6 +8,7 @@ import Payments from "../pages/Payments";
 import Profile from "../pages/Profile";
 import ProtectedRoute from "./ProtectedRoute";
 import Register from "../pages/Register";
+import DoctorDashboard from "../pages/DoctorDashboard";
 
 function AppRoutes() {
   return (
@@ -19,14 +20,23 @@ function AppRoutes() {
 
         {/* Protected Dashboard */}
         <Route
-          path="/patient"
+          path="/doctor"
           element={
-            <ProtectedRoute>
-              <PatientDashboard />
+            <ProtectedRoute role="doctor">
+              <DoctorDashboard />
             </ProtectedRoute>
           }
         />
 
+        <Route
+          path="/patient"
+          element={
+            <ProtectedRoute role="patient">
+              <PatientDashboard />
+            </ProtectedRoute>
+          }
+        />     
+        <Route path="/doctor" element={<DoctorDashboard />} />
         <Route path="/doctors" element={<DoctorsList />} />
         <Route path="/appointments" element={<Appointments />} />
         <Route path="/records" element={<Records />} />

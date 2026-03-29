@@ -1,5 +1,14 @@
+import { useNavigate } from "react-router-dom";
+
 function DoctorDashboard() {
-  return (
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+  };
+
+return (
     <div className="doctor-dashboard">
       <h1>Doctor Dashboard</h1>
 

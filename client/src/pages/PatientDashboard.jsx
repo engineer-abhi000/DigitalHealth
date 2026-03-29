@@ -1,6 +1,7 @@
 import MainLayout from "../layouts/MainLayout";
 import HealthScore from "../components/HealthScore";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 function PatientDashboard() {
   const navigate = useNavigate();
@@ -9,6 +10,28 @@ function PatientDashboard() {
     localStorage.removeItem("token");
     navigate("/");
   };
+
+  const [data, setData] = useState({
+    healthScore: 0,
+    appointments: 0,
+    reports: 0,
+  });
+  
+
+  const [loading, setLoading] = useState(true);
+
+useEffect(() => {
+  fetch("http://localhost:5000/api/dashboard-data", {
+    headers: {
+      Authorization: localStorage.getItem("token"),
+    },
+  })
+    .then(res => res.json())
+    .then(data => {
+      setData(data);
+      setLoading(false);
+    });
+}, []);
 
   return (
     <MainLayout>
@@ -21,17 +44,18 @@ function PatientDashboard() {
       </div>
 
       <div className="dashboard-grid">
-        <HealthScore score={85} />
+        <HealthScore score={data.healthScore} />
 
-        <div className="dashboard-card">
-          <h3>Upcoming Appointments</h3>
-          <h2>3</h2>
-        </div>
+      <div className="dashboard-card">
+        <h3>Upcoming Appointments</h3>
+        <h2>{data.appointments}</h2>
+      </div>
 
-        <div className="dashboard-card">
-          <h3>Total Reports</h3>
-          <h2>12</h2>
-        </div>
+      <div className="dashboard-card">
+        <h3>Total Reports</h3>
+        <h2>{data.reports}</h2>
+      </div>
+      
       </div>
     </MainLayout>
   );

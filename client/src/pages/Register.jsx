@@ -6,6 +6,7 @@ function Register() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("patient");
 
   const handleRegister = async () => {
     try {
@@ -48,7 +49,13 @@ function Register() {
           onChange={(e) => setPassword(e.target.value)}
         />
 
+        <select onChange={(e) => setRole(e.target.value)}>
+          <option value="patient">Patient</option>
+          <option value="doctor">Doctor</option>
+        </select>
+
         <button onClick={handleRegister}>Register</button>
+        
       </div>
     </div>
   );

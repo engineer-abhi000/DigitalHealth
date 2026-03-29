@@ -190,12 +190,18 @@ button:hover {
 .dashboard-card h3 {
   color: var(--text-muted);
   font-size: 13px;
+  color: #cbd5e1;
 }
 
 .dashboard-card h2 {
   margin-top: 10px;
   font-size: 28px;
   font-weight: 700;
+  color: #ffffff;   /* make numbers white */
+  font-size: 28px;
+  font-weight: bold;
+  color: #4f8cff;
+  text-shadow: 0 0 10px rgba(79, 140, 255, 0.5);
 }
 
 /* ========================= */
