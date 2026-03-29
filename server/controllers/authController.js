@@ -37,23 +37,6 @@ exports.loginUser = (req, res) => {
   });
 };
 
-exports.registerTestUser = async (req, res) => {
-  const bcrypt = require("bcrypt");
-
-  const email = "test@gmail.com";
-  const password = "123456";
-
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  const sql = "INSERT INTO users (email, password) VALUES (?, ?)";
-
-  db.query(sql, [email, hashedPassword], (err) => {
-    if (err) return res.send("Error");
-
-    res.send("User Created");
-  });
-};
-
 exports.registerUser = async (req, res) => {
   const { email, password } = req.body;
 

@@ -4,6 +4,7 @@ const cors = require("cors");
 const authRoutes = require("./routes/authRoutes");
 const doctorRoutes = require("./routes/doctorRoutes");
 const appointmentRoutes = require("./routes/appointmentRoutes");
+const verifyToken = require("./middleware/authMiddleware");
 
 const app = express();
 
@@ -17,6 +18,13 @@ app.use("/api/appointments", appointmentRoutes);
 app.listen(5000, () =>
   console.log("Server running on port 5000")
 );
+
+app.get("/api/dashboard", verifyToken, (req, res) => {
+  res.json({
+    message: "Protected route working",
+    user: req.user,
+  });
+});
 
 app.post("/api/login", (req, res) => {
   const { email, password } = req.body;
