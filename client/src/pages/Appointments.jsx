@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAppointments, createAppointment } from "../services/appointmentService";
+import { createAppointment } from "../services/appointmentService";
 import { Modal, Button, Form } from "react-bootstrap";
 import Sidebar from "../components/Sidebar";
 
@@ -8,24 +8,31 @@ const Appointments = () => {
   const [show, setShow] = useState(false);
 
   const [formData, setFormData] = useState({
-    patient_name: "",
-    doctor_name: "",
-    appointment_date: ""
-  });
+  doctorId: "",
+  date: ""
+});
 
- const fetchAppointments = async () => {
-  try {
-    const res = await getAppointments();
-    console.log("API Data:", res.data); // 👈 debug
-    setAppointments(res.data);
-  } catch (error) {
-    console.error("Error fetching appointments:", error);
-  }
-};
+//  const fetchAppointments = async () => {
+//   try {
+//     console.log("API Data:", res.data); // 👈 debug
+//     setAppointments(res.data);
+//   } catch (error) {
+//     console.error("Error fetching appointments:", error);
+//   }
+// };
 
   useEffect(() => {
-    fetchAppointments();
-  }, []);
+  fetch("http://localhost:5000/api/appointments", {
+    headers: {
+      Authorization: localStorage.getItem("token"),
+    },
+  })
+    .then(res => res.json())
+    .then(data => {
+  const finalData = Array.isArray(data) ? data : data.data;
+  setAppointments(finalData);
+});
+}, []);
 
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
@@ -83,15 +90,16 @@ const Appointments = () => {
             </tr>
           </thead>
           <tbody>
-            {appointments.map((app) => (
-              <tr key={app.id}>
-                <td>{app.id}</td>
-                <td>{app.patient_name}</td>
-                <td>{app.doctor_name}</td>
-                <td>{app.appointment_date}</td>
-                <td>{app.status}</td>
-              </tr>
-            ))}
+            {Array.isArray(appointments) &&
+              appointments.map((app) => (
+                <tr key={app.id}>
+                  <td>{app.id}</td>
+                  <td>{app.user_id}</td>
+                  <td>{app.doctor_id}</td>
+                  <td>{app.date}</td>
+                  <td>Scheduled</td>
+                </tr>
+              ))}
           </tbody>
         </table>
 
@@ -118,10 +126,9 @@ const Appointments = () => {
                 <Form.Label>Doctor Name</Form.Label>
                 <Form.Control
                   type="text"
-                  name="doctor_name"
-                  value={formData.doctor_name}
+                  name="doctorId"
+                  value={formData.doctorId}
                   onChange={handleChange}
-                  required
                 />
               </Form.Group>
 
@@ -129,10 +136,9 @@ const Appointments = () => {
                 <Form.Label>Appointment Date</Form.Label>
                 <Form.Control
                   type="date"
-                  name="appointment_date"
-                  value={formData.appointment_date}
+                  name="date"
+                  value={formData.date}
                   onChange={handleChange}
-                  required
                 />
               </Form.Group>
 

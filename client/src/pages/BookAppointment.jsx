@@ -1,16 +1,38 @@
-import MainLayout from "../layouts/MainLayout";
+import { useState } from "react";
 
 function BookAppointment() {
-  return (
-    <MainLayout>
-      <h1>Book Appointment</h1>
+  const [doctorId, setDoctorId] = useState("");
+  const [date, setDate] = useState("");
 
-      <div className="dashboard-card">
-        <input type="date" />
-        <br /><br />
-        <button className="logout-btn">Book</button>
-      </div>
-    </MainLayout>
+  const handleBook = async () => {
+    await fetch("http://localhost:5000/api/appointments", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("token"),
+      },
+      body: JSON.stringify({ doctorId, date }),
+    });
+
+    alert("Appointment Booked!");
+  };
+
+  return (
+    <div>
+      <h2>Book Appointment</h2>
+
+      <input
+        placeholder="Doctor ID"
+        onChange={(e) => setDoctorId(e.target.value)}
+      />
+
+      <input
+        type="date"
+        onChange={(e) => setDate(e.target.value)}
+      />
+
+      <button onClick={handleBook}>Book</button>
+    </div>
   );
 }
 

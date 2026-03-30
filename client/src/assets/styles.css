@@ -171,7 +171,20 @@ button:hover {
 /* CARDS */
 /* ========================= */
 
-.dashboard-card,
+.dashboard-card {
+  background: #1e293b;
+  padding: 20px;
+  border-radius: 12px;
+  color: white;
+  text-align: center;
+}
+
+.dashboard-card h2 {
+  font-size: 28px;
+  color: #4f8cff;
+}
+
+
 .health-card,
 .form-card {
   background: var(--bg-card);

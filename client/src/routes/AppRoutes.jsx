@@ -9,6 +9,7 @@ import Profile from "../pages/Profile";
 import ProtectedRoute from "./ProtectedRoute";
 import Register from "../pages/Register";
 import DoctorDashboard from "../pages/DoctorDashboard";
+import BookAppointment from "../pages/BookAppointment";
 
 function AppRoutes() {
   return (
@@ -37,6 +38,7 @@ function AppRoutes() {
           }
         />     
         <Route path="/doctor" element={<DoctorDashboard />} />
+        <Route path="/book" element={<BookAppointment />} />
         <Route path="/doctors" element={<DoctorsList />} />
         <Route path="/appointments" element={<Appointments />} />
         <Route path="/records" element={<Records />} />
